@@ -1,0 +1,36 @@
+{
+  "name": "lixi-delivery",
+  "description": "Lixi Delivery Api",
+  "author": "NextAds",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha test/feature*",
+    "dev": "nodemon ./app.js",
+    "start": "NODE_ENV=production node app.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "cluster": "^0.7.7",
+    "compression": "^1.7.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "knex": "^0.14.6",
+    "lalamove-js": "^1.0.0",
+    "moment": "^2.22.1",
+    "mysql": "^2.15.0",
+    "pg": "^7.4.1",
+    "redis": "^2.8.0",
+    "redis-lock": "^0.1.4",
+    "socket.io": "^2.1.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.13.3",
+    "request": "^2.87.0",
+    "request-as-curl": "^0.1.0"
+  }
+}

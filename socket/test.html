@@ -1,0 +1,54 @@
+<script src="/socket.io/socket.io.js"></script>
+
+<button onclick="emit()">Emit</button>
+
+<div class="output">
+    <pre class="send-output"></pre>
+    <pre class="listen-output"></pre>
+</div>
+
+<style>
+    .output {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .output:after {
+        content: " ";
+        visibility: hidden;
+        display: block;
+        height: 0;
+        clear: both;
+    }
+
+    .send-output, .listen-output {
+        display: inline-block;
+        float: left;
+        width: 50%;
+    }
+</style>
+
+<script>
+    let socket = io('http://localhost:8080');
+    let sendOutput = document.body.querySelector('.send-output');
+    let listenOutput = document.body.querySelector('.listen-output');
+
+    const listenEvent = ['user_order/state_changed'];
+
+    function emit() {
+        let event = 'connection/admin_join';
+        let data = {
+            admin_authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImxvZ2luIjoibHVjLnRhIiwiaWF0IjoxNTI2OTk4OTgxfQ.Is3n4hOaugTYwpprbCysI8kWAJ2flgngYHBQdcx99OU',
+        };
+
+        socket.emit(event, data, (result) => {
+            sendOutput.append(`SEND [${event}]: ${JSON.stringify(result)}\n`);
+        });
+    }
+
+    for (let event of listenEvent) {
+        socket.on(event, (data) => {
+            listenOutput.append(`LISTEN [${event}]: ${JSON.stringify(data)}\n`);
+        });
+    }
+</script>

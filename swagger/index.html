@@ -1,0 +1,112 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700"
+          rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+
+        .swagger-ui .response-col_description__inner div.markdown p, .swagger-ui table.model div.markdown p {
+            font-family: Open Sans, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+<div id="swagger-ui"></div>
+
+<script src="./swagger-ui-bundle.js"></script>
+<script src="./swagger-ui-standalone-preset.js"></script>
+<script>
+    function HideTopbarPlugin() {
+        // this plugin overrides the Topbar component to return nothing
+        return {
+            components: {
+                Topbar: function () {
+                    return null
+                }
+            }
+        }
+    }
+
+    window.onload = function () {
+
+        // Build a system
+        const ui = SwaggerUIBundle({
+            url: window.location.origin + '/swagger/data.json',
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset,
+            ],
+            plugins: [
+                SwaggerUIBundle.plugins.DownloadUrl,
+                HideTopbarPlugin,
+            ],
+            layout: 'StandaloneLayout',
+            defaultModelRendering: 'model',
+            displayRequestDuration: true,
+            docExpansion: 'none',
+            validatorUrl: null,
+            operationsSorter: (a, b) => {
+                let entriesA = a._root.entries;
+                let entriesB = b._root.entries;
+                let operationA = entriesA.filter(x => x[0] === 'operation')[0][1]._list._tail.array;
+                let operationB = entriesB.filter(x => x[0] === 'operation')[0][1]._list._tail.array;
+
+                // let updateDateA = operationA.filter(x => x[0] === 'update_date')[0];
+                // updateDateA = updateDateA ? updateDateA[1] : 0;
+                // let updateDateB = operationB.filter(x => x[0] === 'update_date')[0];
+                // updateDateB = updateDateB ? updateDateB[1] : 0;
+                // if (updateDateA !== 0 && updateDateB === 0)
+                //     return -1;
+                // else if (updateDateA === 0 && updateDateB !== 0)
+                //     return 1;
+                // else if (updateDateA !== updateDateB)
+                //     return updateDateA < updateDateB;
+
+                let methodA = entriesA.filter(x => x[0] === 'method')[0][1];
+                let methodB = entriesB.filter(x => x[0] === 'method')[0][1];
+                if (methodA.localeCompare(methodB) !== 0) {
+                    let methodOrders = ['get', 'post', 'put', 'delete'];
+                    for (let method of methodOrders) {
+                        if (methodA === method)
+                            return -1;
+                        if (methodB === method)
+                            return 1;
+                    }
+                }
+
+                let pathA = entriesA.filter(x => x[0] === 'path')[0][1];
+                let pathB = entriesB.filter(x => x[0] === 'path')[0][1];
+                return pathA.localeCompare(pathB);
+            }
+        });
+
+        window.ui = ui
+    }
+</script>
+</body>
+</html>
