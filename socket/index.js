@@ -200,7 +200,7 @@ module.exports = class {
                         try {
                             let field = value[key];
                             if (field instanceof types.RawType)
-                                field = {type: field};
+                                field = { type: field };
 
                             field = objectMap.initAndCheck({
                                 target: field,
@@ -250,7 +250,7 @@ module.exports = class {
                     if (!Array.isArray(value))
                         throw `must be Array type`;
 
-                    return value.map(item => objectMap.initAndCheck({target: item, map: this.error_configuration}));
+                    return value.map(item => objectMap.initAndCheck({ target: item, map: this.error_configuration }));
                 },
             },
 
@@ -411,7 +411,7 @@ module.exports = class {
 
     static register(data) {
         try {
-            data = objectMap.initAndCheck({target: data, map: this.configuration});
+            data = objectMap.initAndCheck({ target: data, map: this.configuration });
         } catch (error) {
             throw `Register socket failed [${data.name}]: ${error}`;
         }
@@ -428,7 +428,7 @@ module.exports = class {
             data.parameter.local_secret_key = {
                 required: true,
                 allow_null: false,
-                type: types.string({description: desc, allowEmpty: false}),
+                type: types.string({ description: desc, allowEmpty: false }),
             };
 
             data.error.push({
@@ -442,7 +442,7 @@ module.exports = class {
             data.parameter.admin_authorization = {
                 required: true,
                 allow_null: false,
-                type: types.string({description: 'admin access token', allowEmpty: false}),
+                type: types.string({ description: 'admin access token', allowEmpty: false }),
                 parse: (value, config, end_point) => {
                     if (util.isNullOrEmpty(value))
                         throw 'cannot be empty';
@@ -462,7 +462,7 @@ module.exports = class {
             data.parameter.merchant_authorization = {
                 required: true,
                 allow_null: false,
-                type: types.string({description: 'merchant access token', allowEmpty: false}),
+                type: types.string({ description: 'merchant access token', allowEmpty: false }),
                 parse: (value, config, end_point) => {
                     value = value.replace('JWT ', '');
 
@@ -484,7 +484,7 @@ module.exports = class {
             data.parameter.user_authorization = {
                 required: true,
                 allow_null: false,
-                type: types.string({description: 'user access token', allowEmpty: false}),
+                type: types.string({ description: 'user access token', allowEmpty: false }),
                 parse: (value, config, end_point) => {
                     value = value.replace('JWT ', '');
 
@@ -511,11 +511,11 @@ module.exports = class {
 
         // default error
         if (!data.error.some(x => x.code === 'cannot_be_listen'))
-            data.error.push({code: 'cannot_be_listen', message: 'hàm không được phép gọi từ client'});
+            data.error.push({ code: 'cannot_be_listen', message: 'hàm không được phép gọi từ client' });
         if (!data.error.some(x => x.code === 'parameter_error'))
-            data.error.push({code: 'parameter_error', message: 'tham số đầu vào bị lỗi'});
+            data.error.push({ code: 'parameter_error', message: 'tham số đầu vào bị lỗi' });
         if (!data.error.some(x => x.code === 'response_error'))
-            data.error.push({code: 'response_error', message: 'kết quả xử lý bị lỗi'});
+            data.error.push({ code: 'response_error', message: 'kết quả xử lý bị lỗi' });
 
         this.end_point.push(data);
     }
@@ -548,27 +548,23 @@ module.exports = class {
                     continue;
 
                 socket.on(end_point.event, (data, callback) => flow.processListen({
-                    end_point,
-                    data,
-                    io,
-                    socket,
-                    callback
+                    end_point, data, io, socket, callback
                 }));
             }
         });
     }
 
-    static async emit({event, to, data = {}}) {
+    static async emit({ event, to, data = {} }) {
         let endPoint = this.end_point.filter(x => x.event === event)[0];
         if (!endPoint)
-            throw {code: 'end_point_not_found', data: event};
+            throw { code: 'end_point_not_found', data: event };
 
         if (!to)
-            throw {code: 'to_missing', data: to};
+            throw { code: 'to_missing', data: to };
         if (!Array.isArray(to) || to.some(x => typeof x !== 'string'))
-            throw {code: 'to_invalid', data: to};
+            throw { code: 'to_invalid', data: to };
 
-        return await flow.processEmit({end_point: endPoint, to, data});
+        return await flow.processEmit({ end_point: endPoint, to, data });
     }
 };
 

@@ -15,6 +15,7 @@ api.post({
         res: types.string()
     }),
     handle: async function (params) {
-        await socket.emit(params)
+        const res = await socket.emit(params)
+        console.log(res)
     },
 });

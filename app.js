@@ -30,11 +30,19 @@ const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
+// io.sockets.on('connection', function (socket) {
+//     socket.emit('news', { hello: 'world' });
+//     socket.on('my other event', function (data) {
+//         console.log(data);
+//     });
+// });
+
+
 (async () => {
     app.use(cors());
     app.use(compression());
-    app.use(bodyParser.json({limit: '100mb'}));
-    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.json({ limit: '100mb' }));
+    app.use(bodyParser.urlencoded({ extended: true }));
 
     // load api end-points
     await api.load(app);
@@ -73,4 +81,4 @@ const io = require('socket.io')(server);
         console.log(`Worker ${process.pid} started at http://localhost:${config.apiServer.port}`);
 })();
 
-module.exports = {app, io};
+module.exports = { app, io };

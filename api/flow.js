@@ -245,28 +245,7 @@ flow.checkLocalSecretKey = async function ({end_point, controller, arg}) {
 };
 
 flow.checkAdminSession = async function ({end_point, controller, arg}) {
-    try {
-        let session;
-        try {
-            session = await axios({
-                method: 'GET',
-                url: config.session.adminCheckUrl,
-                headers: {
-                    authorization: arg.admin_authorization,
-                }
-            });
-            session = session.data.data;
-        } catch (e) { // noinspection ExceptionCaughtLocallyJS
-            throw e.response.data.error;
-        }
-
-        controller.data.currentAdmin = {
-            id: session.id,
-        };
-
-    } catch (e) {
-        throw {code: 'admin_authorization_invalid', data: e};
-    }
+    
 };
 
 flow.checkMerchantSession = async function ({end_point, controller, arg}) {
