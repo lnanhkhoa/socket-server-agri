@@ -3,15 +3,18 @@ const types = require('../../core/types');
 const socket = require('../../socket');
 
 api.post({
-    url: '/local/socket_test',
+    url: '/_test/emit',
     tags: ['dev'],
-    dev_only: true,
+    // dev_only: true,
     parameter: {
         event: types.string(),
         data: types.raw(),
         to: types.list(types.string()),
     },
-    handle: async function (arg) {
-        await socket.emit(arg)
+    response: types.object({
+        res: types.string()
+    }),
+    handle: async function (params) {
+        await socket.emit(params)
     },
 });

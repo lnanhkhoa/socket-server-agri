@@ -1,7 +1,7 @@
 {
-  "name": "lixi-delivery",
-  "description": "Lixi Delivery Api",
-  "author": "NextAds",
+  "name": "sample_socket",
+  "description": "sample socket",
+  "author": "lnanhkhoa",
   "license": "MIT",
   "scripts": {
     "test": "mocha test/feature*",

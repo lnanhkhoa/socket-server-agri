@@ -54,14 +54,14 @@ const io = require('socket.io')(server);
         app.use('/swagger', express.static(path.join(__dirname, 'swagger')));
     }
 
-    // aglio
-    if (config.isDevelopment) {
-        app.get('/aglio', (req, res) => {
-            aglio.reload().then(() => {
-                res.send(aglio.html);
-            });
-        });
-    }
+    // // aglio
+    // if (config.isDevelopment) {
+    //     app.get('/aglio', (req, res) => {
+    //         aglio.reload().then(() => {
+    //             res.send(aglio.html);
+    //         });
+    //     });
+    // }
 
     // default route
     if (config.isDevelopment)
