@@ -1,5 +1,7 @@
-const socket = require('../index');
-const types = require('../../core/types');
+const socket = require('../../index');
+const types = require('../../../core/types');
+
+const handle = require('./handle')
 
 socket.register({
     event: 'disconnect',
@@ -10,29 +12,19 @@ socket.register({
 
 
 socket.register({
-    event: 'connection/device_join',
+    event: 'connection/home_join',
     tags: ['connection'],
     summary: 'người dùng tham gia vào kênh socket',
     allow_emit: true,
     parameter: {
-        user_id: types.string()
+        home_name: types.string(),
+        token_key: types.string()
     },
     response: types.object({
-        user_id: types.string({ description: 'id user' }),
-        list_channel: types.list(types.string(), { description: 'các kênh tương tác' }),
-    }),
-    listen_handle: async function (params) {
-        let joinChannels = [
-            `user_${params.user_id}`
-        ];
-        for (let channel of joinChannels)
-            this.socket.join(channel);
+        home_name: types.string({ description: 'home name' }),
 
-        return {
-            user_id: params.user_id,
-            list_channel: joinChannels,
-        };
-    },
+    }),
+    listen_handle: handle.home_join
 });
 
 
@@ -42,24 +34,13 @@ socket.register({
     summary: 'người dùng tham gia vào kênh socket',
     allow_emit: true,
     parameter: {
-        user_id: types.string()
+        user_name: types.string()
     },
     response: types.object({
-        user_id: types.string({ description: 'id user' }),
+        user_name: types.string({ description: 'id user' }),
         list_channel: types.list(types.string(), { description: 'các kênh tương tác' }),
     }),
-    listen_handle: async function (params) {
-        let joinChannels = [
-            `user_${params.user_id}`
-        ];
-        for (let channel of joinChannels)
-            this.socket.join(channel);
-
-        return {
-            user_id: params.user_id,
-            list_channel: joinChannels,
-        };
-    },
+    listen_handle: handle.user_join
 });
 
 
@@ -73,21 +54,7 @@ socket.register({
         admin_id: types.string({ description: 'id admin' }),
         list_channel: types.list(types.string(), { description: 'các kênh tương tác' }),
     }),
-    listen_handle: async function (params) {
-        console.log(params)
-        let joinChannels = [
-            `admin`,
-            `admin_${this.currentAdminId}`
-        ];
-
-        for (let channel of joinChannels)
-            this.socket.join(channel);
-
-        return {
-            admin_id: this.currentAdminId,
-            list_channel: joinChannels,
-        };
-    },
+    listen_handle: handle.admin_join
 });
 
 
@@ -101,14 +68,10 @@ socket.register({
         a: types.number()
     },
     response: types.list(types.object({
-       
+
     })),
-    listen_handle: async function (params) {
-        
-    },
+    listen_handle: handle.get_state_all_devices
 });
-
-
 
 socket.register({
     event: 'event',
@@ -122,7 +85,5 @@ socket.register({
         user_id: types.string({ description: 'id user' }),
         list_channel: types.list(types.string(), { description: 'các kênh tương tác' }),
     }),
-    listen_handle: async function (params) {
-    //    console.log('nhan ket qua')
-    },
+    listen_handle: handle.event
 });

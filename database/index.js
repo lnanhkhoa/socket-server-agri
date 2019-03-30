@@ -18,3 +18,6 @@ module.exports = {
         }
     }
 };
+
+
+dao.device = require('./dao/home')

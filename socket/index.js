@@ -569,5 +569,7 @@ module.exports = class {
 };
 
 require('./end-point/connection');
+require('./end-point/user');
+require('./end-point/home');
 
 // require('./end-point/user_order');
