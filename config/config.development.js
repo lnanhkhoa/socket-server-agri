@@ -34,24 +34,14 @@ let config = {
         prefix: undefined,
     },
     database: {
-        delivery: {
+        agrismart: {
             client: 'mysql',
             connection: {
-                host: 'localhost',
+                host: '45.117.168.231',
                 port: 3306,
-                user: undefined,
-                password: undefined,
-                database: undefined,
-            },
-        },
-        voucher: {
-            client: undefined,
-            connection: {
-                host: undefined,
-                port: undefined,
-                user: undefined,
-                password: undefined,
-                database: undefined,
+                user: 'agri',
+                password: 'agri@123',
+                database: 'agrismart',
             },
         },
     },

@@ -34,17 +34,7 @@ let config = {
         prefix: undefined,
     },
     database: {
-        delivery: {
-            client: undefined,
-            connection: {
-                host: undefined,
-                port: undefined,
-                user: undefined,
-                password: undefined,
-                database: undefined,
-            },
-        },
-        voucher: {
+        agrismart: {
             client: undefined,
             connection: {
                 host: undefined,

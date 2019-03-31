@@ -21,11 +21,7 @@ module.exports = class {
         return conn.knex;
     }
 
-    openVoucherConnection() {
-        return this.openConnection('voucher');
-    }
-
-    openDeliveryConnection() {
-        return this.openConnection('delivery');
+    openAConnection() {
+        return this.openConnection('agrismart');
     }
 };

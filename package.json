@@ -6,7 +6,11 @@
   "scripts": {
     "test": "mocha test/feature*",
     "dev": "nodemon ./app.js",
-    "start": "NODE_ENV=production node app.js"
+    "start": "NODE_ENV=production node app.js",
+    "create": "NODE_ENV=development node ./scripts/create_database.js",
+    "create:trigger": "NODE_ENV=development node ./scripts/create_trigger.js",
+    "insert": "NODE_ENV=development node ./scripts/insert_sample.js",
+    "database": "yarn run create && yarn run insert"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -21,7 +25,9 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.1",
     "mysql": "^2.15.0",
+    "os": "^0.1.1",
     "pg": "^7.4.1",
+    "prompt-confirm": "^2.0.4",
     "redis": "^2.8.0",
     "redis-lock": "^0.1.4",
     "socket.io": "^2.1.0",
