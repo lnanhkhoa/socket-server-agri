@@ -5,7 +5,7 @@ const database = require('../index');
 const dao = database.dao;
 
 module.exports = class {
-    static nameTable() { return "device" }
+    static nameTable() { return "value_device" }
 
     static sample() {
         return [
@@ -14,9 +14,10 @@ module.exports = class {
     static schema() {
         return {
             id: types.number({ increments: true, primary: true }),
-            device_uuid: types.string({ max: 300 }),
-            device_url: types.string({}),
-            device_name: types.string({ max: 200 }),
+            device_id: types.number({}),
+            value: types.number({}),
+            unit: types.string({}),
+            value_type: types.string()
         }
     }
 

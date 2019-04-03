@@ -16,9 +16,11 @@ module.exports = class {
   static schema() {
     return {
       id: types.number({ increments: true, primary: true }),
-      home_id: types.number(),
-      node_name: types.string(),
       node_uuid: types.string(),
+      node_name: types.string(),
+      registrationId: types.string(),
+      address: types.string(),
+
     }
   }
 
@@ -38,13 +40,27 @@ module.exports = class {
     return { meta: { success: true } }
   }
 
-  static async insert(home) {
-    const parseResults = this.models._parseSchema(bill_product);
+  static async insert(node) {
+    const parseResults = this.dao._parseSchema(node);
     if (!_.get(parseResults, 'meta.success', undefined)) throw { ...parseResults }
 
-    const index = _.push({ ...home });
+    const index = _.push({ ...node });
     db[index - 1].id = index;
     return index
+  }
+
+   static async insertBulk(list_node) {
+    const db = this.openAConnection()
+    const nameTable = this.dao._nameTable();
+
+    list_node.map( node => {
+      const parseResults = this.dao._parseSchema(node);
+      if (!_.get(parseResults, 'meta.success', undefined)) throw { ...parseResults }
+    })
+    const idAfterInsert = db.table(nameTable).insert([...list_node])
+    const id = idAfterInsert[0];
+    if (!id) throw { code: 'id_is_valid' }
+    return id
   }
 
 
@@ -54,9 +70,20 @@ module.exports = class {
     return await db.table(nameTable).where('id', id).first();
   }
 
+
+  static async getListByListNodeName(list_node_name) {
+    const db = this.openAConnection()
+    const nameTable = this.dao._nameTable();
+    return await db.table(nameTable).whereIn('node_name', list_node_name)
+  }
+
+
+
+
   static async getAll() {
     return db
   }
+
 
 };
 
