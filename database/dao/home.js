@@ -10,7 +10,7 @@ module.exports = class {
 
   static sample() {
     return [
-      { id: 1, home_name: 'lesharn_08042019', token_key: 'lesharn_08042019_sercet' }
+      { id: 1, home_name: 'leshan_08042019', token_key: 'leshan_08042019_sercet' }
     ]
   }
   static schema() {

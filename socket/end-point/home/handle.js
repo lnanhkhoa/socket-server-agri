@@ -5,7 +5,8 @@ const handle = {}
 
 
 handle.send_all_state_home = async function (params) {
-    console.log('all saved', params)
+    console.log('all saved')
+    console.log(params.send_all_state_home.map(node=>node.data))
 }
 
 handle.response_from_home_to_user = async function (params) {

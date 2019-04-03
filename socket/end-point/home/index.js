@@ -33,10 +33,16 @@ socket.register({
     summary: 'nhan thong tin tu home',
     allow_emit: true,
     parameter: {
-        node_name: types.string(),
-        data: types.list(types.object({
-            id: types.number(),
-            value: types.number()
+        send_all_state_home: types.list(types.object({
+            endpoint: types.string(),
+            registrationId: types.string(),
+            address: types.string(),
+            data: types.list(types.object({
+                name: types.string(),
+                url: types.string(),
+                value: types.raw(),
+                unit: types.string(),
+            })),
         }))
     },
     response: types.object({
