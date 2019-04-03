@@ -37,7 +37,7 @@ let config = {
         agrismart: {
             client: 'mysql',
             connection: {
-                host: '45.117.168.231',
+                host: '127.0.0.1',
                 port: 3306,
                 user: 'agri',
                 password: 'agri@123',

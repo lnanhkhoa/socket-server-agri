@@ -9,7 +9,7 @@ module.exports = class {
 
   static sample() {
     return [
-      { id: 1, user_name: 'ios', password: '123456', token_key: 'ios_android_secret' }
+      { user_name: 'ios', password: '123456', token_key: 'ios_android_secret' }
     ]
   }
 

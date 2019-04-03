@@ -8,9 +8,9 @@ module.exports = class {
 
   static sample() {
     return [
-      { id: 1, home_id: 1, node_id: 1 },
-      { id: 1, home_id: 1, node_id: 2 },
-      { id: 1, home_id: 1, node_id: 3 }
+      { home_id: 1, node_id: 1 },
+      { home_id: 1, node_id: 2 },
+      { home_id: 1, node_id: 3 }
     ]
   }
 

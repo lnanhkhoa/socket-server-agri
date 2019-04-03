@@ -17,7 +17,6 @@ module.exports = class {
             device_id: types.number({}),
             value: types.number({}),
             unit: types.string({}),
-            value_type: types.string()
         }
     }
 
@@ -45,6 +44,21 @@ module.exports = class {
         db[index - 1].id = index;
         return index
     }
+
+    static async insertBulk(list_value_device) {
+        const db = this.openAConnection()
+        const nameTable = this.dao._nameTable();
+
+        list_value_device.map(value_device => {
+            const parseResults = this.dao._parseSchema(value_device);
+            if (!_.get(parseResults, 'meta.success', undefined)) throw { ...parseResults }
+        })
+        const idAfterInsert = await db.table(nameTable).insert(list_value_device)
+        const id = idAfterInsert[0];
+        if (!id) throw { code: 'id_is_valid' }
+        return id
+    }
+
 
 
     static async getById(id) {

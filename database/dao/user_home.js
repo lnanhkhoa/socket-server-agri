@@ -11,7 +11,7 @@ module.exports = class {
 
   static sample() {
     return [
-      { id: 1, user_id: 1, home_id: 1 }
+      { user_id: 1, home_id: 1 }
     ]
   }
 

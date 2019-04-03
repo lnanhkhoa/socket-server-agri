@@ -31,6 +31,52 @@ module.exports = class NumberType extends RawType {
                     return value;
                 },
             },
+            increments: {
+                default: false,
+                allowNull: true,
+                parse: (value) => {
+                    if (typeof value !== 'boolean')
+                        throw 'must be Boolean type';
+                    return value;
+                },
+            },
+
+            primary: {
+                default: false,
+                allowNull: true,
+                parse: (value) => {
+                    if (typeof value !== 'boolean')
+                        throw 'must be Boolean type';
+                    return value;
+                },
+            },
+            float: {
+                default: false,
+                allowNull: true,
+                parse: (value) => {
+                    if (typeof value !== 'boolean')
+                        throw 'must be Boolean type';
+                    return value;
+                },
+            },
+            index: {
+                default: false,
+                allowNull: true,
+                parse: (value) => {
+                    if (typeof value !== 'boolean')
+                        throw 'must be Boolean type';
+                    return value;
+                },
+            },
+            unique: {
+                default: false,
+                allowNull: false,
+                parse: (value) => {
+                    if (typeof value !== 'boolean')
+                        throw 'must be Boolean type';
+                    return value;
+                },
+            }
         }, super.configuration);
     };
 

@@ -9,7 +9,7 @@ module.exports = class {
 
   static sample() {
     return [
-      { home_id: 1, node_name: 'node_1', node_uuid: 'lesharn_node_1' }
+      // { home_id: 1, node_name: 'node_1', node_uuid: 'lesharn_node_1' }
     ]
   }
 
@@ -17,8 +17,8 @@ module.exports = class {
     return {
       id: types.number({ increments: true, primary: true }),
       node_uuid: types.string(),
-      node_name: types.string(),
-      registrationId: types.string(),
+      node_name: types.string({max: 300}),
+      registration_id: types.string(),
       address: types.string(),
 
     }
@@ -49,15 +49,15 @@ module.exports = class {
     return index
   }
 
-   static async insertBulk(list_node) {
+  static async insertBulk(list_node) {
     const db = this.openAConnection()
     const nameTable = this.dao._nameTable();
 
-    list_node.map( node => {
+    list_node.map(node => {
       const parseResults = this.dao._parseSchema(node);
       if (!_.get(parseResults, 'meta.success', undefined)) throw { ...parseResults }
     })
-    const idAfterInsert = db.table(nameTable).insert([...list_node])
+    const idAfterInsert = await db.table(nameTable).insert(list_node)
     const id = idAfterInsert[0];
     if (!id) throw { code: 'id_is_valid' }
     return id
@@ -68,6 +68,12 @@ module.exports = class {
     const db = this.openAConnection()
     const nameTable = this.dao._nameTable();
     return await db.table(nameTable).where('id', id).first();
+  }
+  
+  static async getByAddress(address) {
+    const db = this.openAConnection()
+    const nameTable = this.dao._nameTable();
+    return await db.table(nameTable).where('address', address).first();
   }
 
 
