@@ -16,8 +16,9 @@ module.exports = class {
   static schema() {
     return {
       id: types.number({ increments: true, primary: true }),
+      home_id: types.number({ index: true }),
       node_uuid: types.string(),
-      node_name: types.string({max: 300}),
+      node_name: types.string({ max: 300 }),
       registration_id: types.string(),
       address: types.string(),
 
@@ -69,11 +70,20 @@ module.exports = class {
     const nameTable = this.dao._nameTable();
     return await db.table(nameTable).where('id', id).first();
   }
-  
+
   static async getByAddress(address) {
     const db = this.openAConnection()
     const nameTable = this.dao._nameTable();
     return await db.table(nameTable).where('address', address).first();
+  }
+
+  static async getByHomeIdNodeName({ home_id, node_name }) {
+    const db = this.openAConnection()
+    const nameTable = this.dao._nameTable();
+    return await db.table(nameTable)
+      .where('home_id', home_id)
+      .where('node_name', node_name)
+      .first();
   }
 
 
@@ -87,7 +97,9 @@ module.exports = class {
 
 
   static async getAll() {
-    return db
+    const db = this.openAConnection();
+    const nameTable = this.dao._nameTable();
+    return await db.table(nameTable).select('*')
   }
 
 

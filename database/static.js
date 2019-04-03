@@ -11,6 +11,7 @@ module.exports = {
             valueId: 5850,
             unitId: undefined,
             valueType: 'boolean',
+            controllable: true
         },
         {
             name: 'Illuminance',

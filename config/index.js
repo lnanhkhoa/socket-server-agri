@@ -42,6 +42,8 @@ let config = {
                 user: undefined,
                 password: undefined,
                 database: undefined,
+                timezone: 'UTC',
+                dateStrings: true,
             },
         },
     },

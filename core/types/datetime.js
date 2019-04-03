@@ -8,23 +8,23 @@ module.exports = class DatetimeType extends RawType {
             if (Number.isNaN(Number(value)) || Number(value) === Infinity || !Number.isInteger(Number(value)))
                 throw 'cannot convert to datetime';
         } else if (mode === 'response') {
-            if (!(value instanceof moment))
-                throw 'must be moment type';
-            if (!value.isValid())
+            if (!(typeof value === 'string'))
+                throw 'must be string type';
+            if (!moment(value).isValid())
                 throw 'datetime is invalid';
         }
     };
 
     static _parse(value, config, mode) {
         if (mode === 'parameter')
-            return moment(parseInt(value));
+            return moment(parseInt(value)).format("YYYY-MM-DD HH:mm:ss.SSS");
         else if (mode === 'response')
-            return value.valueOf();
+            return parseInt(moment(value).format("x"));
         else
             return null;
     };
 
     static _swaggerInfo(config, mode) {
-        return {type: 'number'};
+        return { type: 'number' };
     };
 };

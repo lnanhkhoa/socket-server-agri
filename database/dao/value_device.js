@@ -67,6 +67,15 @@ module.exports = class {
         return await db.table(nameTable).where('id', id).first();
     }
 
+
+    static async getListNewestByListDeviceId(list_device_id) {
+        const length = list_device_id.length || 1;
+        const db = this.openAConnection()
+        const nameTable = this.dao._nameTable();
+        return await db.table(nameTable).whereIn('device_id', list_device_id)
+            .orderBy('created_at', 'desc').limit(length)
+    }
+
     static async getAll() {
         return db
     }

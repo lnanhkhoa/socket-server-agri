@@ -6,17 +6,18 @@ const moment = require('moment')
 
 
 module.exports = class {
-  static nameTable (){ return "home" }
+  static nameTable() { return "home" }
 
   static sample() {
     return [
-      { home_name: 'leshan_08042019', token_key: 'leshan_08042019_sercet' }
+      { user_id: 1, home_name: 'leshan_08042019', token_key: 'leshan_08042019_sercet' }
     ]
   }
   static schema() {
     return {
       id: types.number({ increments: true, primary: true }),
-      home_name: types.string({ max: 200 }),
+      user_id: types.number({ index: true }),
+      home_name: types.string({ index: true, max: 200 }),
       token_key: types.string({ max: 300 }),
     }
   }
@@ -51,6 +52,12 @@ module.exports = class {
     const db = this.openAConnection()
     const nameTable = this.dao._nameTable();
     return await db.table(nameTable).where('id', id).first();
+  }
+  static async getByNameUserId({ home_name, user_id }) {
+    const db = this.openAConnection()
+    const nameTable = this.dao._nameTable();
+    return await db.table(nameTable)
+      .where('home_name', home_name).where('user_id', user_id).first();
   }
 
   static async getAll() {

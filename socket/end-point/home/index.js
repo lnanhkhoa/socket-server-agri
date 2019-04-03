@@ -40,14 +40,12 @@ socket.register({
             data: types.list(types.object({
                 name: types.string(),
                 url: types.string(),
-                value: types.raw(),
+                value: types.number(),
                 unit: types.string(),
             })),
         }))
     },
     response: types.object({
-        user_id: types.string({ description: 'id user' }),
-        list_channel: types.list(types.string(), { description: 'các kênh tương tác' }),
     }),
     listen_handle: handle.send_all_state_home
 });

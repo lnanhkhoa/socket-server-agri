@@ -37,11 +37,13 @@ let config = {
         agrismart: {
             client: 'mysql',
             connection: {
-                host: '127.0.0.1',
+                host: '45.117.168.231',
                 port: 3306,
                 user: 'agri',
                 password: 'agri@123',
                 database: 'agrismart',
+                timezone: 'UTC',
+                dateStrings: true,
             },
         },
     },

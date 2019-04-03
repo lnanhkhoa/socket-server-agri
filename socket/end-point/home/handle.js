@@ -84,6 +84,7 @@ subHandle.insertInfoNode = async function (list_info_node) {
         try {
             const list_need_create_mapping = list_node_need_create.map(node => ({
                 node_uuid: uuidv4(),
+                home_id: 1,
                 node_name: node.endpoint,
                 registration_id: node.registrationId,
                 address: node.address
@@ -100,7 +101,7 @@ subHandle.insertInfoNode = async function (list_info_node) {
 
 
 handle.send_all_state_home = async function (params) {
-    console.log('all saved data')
+    console.log('all saved data', params.send_all_state_home)
     const list_data = params.send_all_state_home
     const list_info_node = list_data.map(node => ({
         ..._.omit(node, ['data'])
@@ -110,13 +111,14 @@ handle.send_all_state_home = async function (params) {
 
     const upsert_info_node = await subHandle.insertInfoNode(list_info_node)
 
-    const p_addInfoDevice = list_data.forEach(async info_node => {
+    const p_addInfoDevice = list_data.map(async info_node => {
         const res = await subHandle.addInsertDevice(info_node)
 
     });
 
     const addInfoDevice = await Promise.all(p_addInfoDevice)
 
+    return null
     // console.log('list_device_approve_need_create', list_device_approve_need_create)
 
 }

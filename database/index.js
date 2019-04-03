@@ -121,9 +121,7 @@ module.exports = {
 
 
 dao.user = require('./dao/user')
-dao.user_home = require('./dao/user_home')
 dao.home = require('./dao/home')
-dao.home_node = require('./dao/home_node')
 dao.node = require('./dao/node')
-dao.value_device = require('./dao/value_device')
 dao.device = require('./dao/device')
+dao.value_device = require('./dao/value_device')

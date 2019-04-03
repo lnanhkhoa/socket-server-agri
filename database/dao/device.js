@@ -67,6 +67,15 @@ module.exports = class {
         return await db.table(nameTable).where('id', id).first();
     }
 
+    static async getByUrlNodeId({ url, node_id }) {
+        const db = this.openAConnection()
+        const nameTable = this.dao._nameTable();
+        return await db.table(nameTable)
+            .where('node_id', node_id)
+            .where('url', url)
+            .first();
+    }
+
     static async getListByListNodeDeviceUrl({ node_id, list_device_url }) {
         const db = this.openAConnection()
         const nameTable = this.dao._nameTable();
@@ -74,9 +83,17 @@ module.exports = class {
             .whereIn('url', list_device_url)
     }
 
+    static async getListByListNodeId(list_node_id) {
+        const db = this.openAConnection()
+        const nameTable = this.dao._nameTable();
+        return await db.table(nameTable).whereIn('node_id', list_node_id)
+    }
+
 
     static async getAll() {
-        return db
+        const db = this.openAConnection();
+        const nameTable = this.dao._nameTable();
+        return await db.table(nameTable).select('*')
     }
 
 };

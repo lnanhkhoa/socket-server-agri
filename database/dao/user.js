@@ -13,7 +13,6 @@ module.exports = class {
     ]
   }
 
-
   static schema() {
     return {
       id: types.number({ increments: true, primary: true }),
@@ -45,8 +44,15 @@ module.exports = class {
     return await db.table(nameTable).where('id', id).first();
   }
 
+
+  static async getByNameTokenKey({ user_name, token_key }) {
+    const db = this.openAConnection()
+    const nameTable = this.dao._nameTable();
+    return await db.table(nameTable).where('user_name', user_name).where('token_key', token_key).first();
+  }
+
   static async getAll() {
-    return user_db
+    return null
   }
 
 };

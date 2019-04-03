@@ -6,7 +6,6 @@ const moment = require('moment');
 
 api.get({
     url: '/user/article',
-    redmine: 485,
     tags: ['article'],
     summary: 'lấy danh sách chủ đề',
     paging: true,

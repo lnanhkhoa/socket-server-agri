@@ -677,17 +677,3 @@ module.exports = class {
 };
 
 require('./end-point/_test');
-
-// require('./end-point/user/article');
-// require('./end-point/user/product');
-// require('./end-point/user/store');
-// require('./end-point/user/store_tag');
-// require('./end-point/user/user_order');
-// require('./end-point/user/promotion');
-// require('./end-point/user/payment');
-
-// require('./end-point/admin/shipment_order');
-// require('./end-point/admin/merchant_order');
-// require('./end-point/admin/user_order');
-
-// require('./end-point/local/lalamove');
