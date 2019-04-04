@@ -12,6 +12,9 @@ const swagger = require('./core/swagger');
 
 //region [cluster runner]
 
+console.log('run in env', process.env.NODE_ENV)
+
+
 if (cluster.isMaster && !config.isDevelopment) {
     let workerCount = config.cluster && config.cluster.workerCount ? config.cluster.workerCount : 1;
     for (let i = 0; i < workerCount; i += 1)
