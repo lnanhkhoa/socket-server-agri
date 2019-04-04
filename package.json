@@ -5,11 +5,10 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha test/feature*",
-    "dev": "nodemon ./app.js",
-    "start": "NODE_ENV=production node app.js",
-    "create": "NODE_ENV=development node ./scripts/create_database.js",
-    "create:trigger": "NODE_ENV=development node ./scripts/create_trigger.js",
-    "insert": "NODE_ENV=development node ./scripts/insert_sample.js",
+    "dev": "export NODE_ENV=development nodemon ./app.js",
+    "start": "export NODE_ENV=production node app.js",
+    "create": "export NODE_ENV=development node ./scripts/create_database.js",
+    "insert": "export NODE_ENV=development node ./scripts/insert_sample.js",
     "database": "yarn run create && yarn run insert"
   },
   "dependencies": {

@@ -7,7 +7,6 @@ const uuidv4 = require('uuid/v4')
 
 
 const handle = {}
-
 const subHandle = {}
 
 
@@ -98,8 +97,6 @@ subHandle.insertInfoNode = async function (list_info_node) {
 }
 
 
-
-
 handle.send_all_state_home = async function (params) {
     console.log('all saved data', params.send_all_state_home)
     const list_data = params.send_all_state_home
@@ -122,6 +119,7 @@ handle.send_all_state_home = async function (params) {
     // console.log('list_device_approve_need_create', list_device_approve_need_create)
 
 }
+
 
 handle.response_from_home_to_user = async function (params) {
     console.log('response_from_home_to_user', params)
