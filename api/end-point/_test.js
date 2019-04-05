@@ -98,7 +98,7 @@ api.post({
         user_name: types.string(),
         user_token_key: types.string(),
         home_name: types.string(),
-        node_name: types.string(),
+        registration_id: types.string(),
         url: types.string(), //instead device_name
         value: types.boolean()
     },
@@ -107,7 +107,7 @@ api.post({
     }),
     handle: async function (params) {
         const { user_name, user_token_key } = params
-        const { home_name, node_name, url, value } = params
+        const { home_name, registration_id, url, value } = params
 
         const object_device = static.object_device;
         const controllable = _.find(object_device, obj => obj.url === url && !!obj.controllable)
@@ -125,8 +125,8 @@ api.post({
         });
         if (!home_existed) throw { code: 'home_not_found' }
 
-        const node_existed = await dao.node.getByHomeIdNodeName({
-            node_name: node_name,
+        const node_existed = await dao.node.getByHomeIdRegId({
+            registration_id: registration_id,
             home_id: home_existed.id
         })
 
@@ -149,4 +149,71 @@ api.post({
             }
         })
     },
+})
+
+
+
+api.get({
+    url: '/user/get_all_info_device',
+    tags: ['dev'],
+    parameter: {
+        user_name: types.string(),
+        user_token_key: types.string(),
+        home_name: types.string(),
+        registration_id: types.string(),
+        url: types.string()
+    },
+    response: types.object({
+        node_name: types.string(),
+        device_name: types.string(),
+        unit: types.string(),
+        url: types.string(),
+        data: types.list(types.object({
+            time: types.string(),
+            value: types.number()
+        }))
+    }),
+    handle: async function (params) {
+        const { user_name, user_token_key } = params
+        const { home_name, registration_id, url } = params
+        const object_device = static.object_device;
+
+        const user_existed = await dao.user.getByNameTokenKey({
+            user_name, token_key: user_token_key
+        });
+        if (!user_existed) throw { code: 'user_not_found' }
+
+        const home_existed = await dao.home.getByNameUserId({
+            home_name: home_name,
+            user_id: user_existed.id
+        });
+        if (!home_existed) throw { code: 'home_not_found' }
+
+        const node_existed = await dao.node.getByHomeIdRegId({
+            registration_id: registration_id,
+            home_id: home_existed.id
+        })
+        if (!node_existed) throw { code: 'node_not_found' }
+
+        const device_existed = await dao.device.getByUrlNodeId({
+            url: url, node_id: node_existed.id
+        });
+        if (!device_existed) throw { code: 'device_not_found' }
+
+        const list_data_device_existed_mapped = await dao.value_device.getListMappedById(device_existed.id);
+        const list_data = list_data_device_existed_mapped.map(dt => ({
+            time: dt.created_at,
+            value: dt.value
+        }))
+
+        return {
+            node_name: node_existed.node_name,
+            device_name: device_existed.device_name,
+            url: device_existed.url,
+            data: list_data
+
+        }
+
+
+    }
 })

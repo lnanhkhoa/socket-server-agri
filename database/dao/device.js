@@ -16,7 +16,7 @@ module.exports = class {
             id: types.number({ increments: true, primary: true }),
             device_uuid: types.string({ index: true, max: 300 }),
             node_id: types.number({ index: true }),
-            url: types.string({}),
+            url: types.string({ index: true }),
             device_name: types.string({ max: 200 }),
             unit: types.string({})
         }
@@ -76,6 +76,17 @@ module.exports = class {
             .where('url', url)
             .first();
     }
+
+    static async getDataByUrlNodeId({ url, node_id }) {
+        const db = this.openAConnection()
+        const nameTable = this.dao._nameTable();
+        return await db.table(nameTable)
+            .where('node_id', node_id)
+            .where('url', url)
+            .orderBy('created_at', 'desc') // .limit(200).offset(0)
+        // .paging({ page, page_size })
+    }
+
 
     static async getListByListNodeDeviceUrl({ node_id, list_device_url }) {
         const db = this.openAConnection()

@@ -60,6 +60,15 @@ module.exports = class {
     }
 
 
+    static async getListMappedById(device_id){
+        const db = this.openAConnection()
+        const nameTable = this.dao._nameTable();
+        return await db.table(nameTable).select(['created_at', 'value'])
+            .where('device_id', device_id)
+            .orderBy('created_at', 'desc').limit(200).offset(0)
+        // .paging({ page, page_size })
+    }
+
 
     static async getById(id) {
         const db = this.openAConnection()
