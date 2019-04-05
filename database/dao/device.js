@@ -18,6 +18,7 @@ module.exports = class {
             node_id: types.number({ index: true }),
             url: types.string({}),
             device_name: types.string({ max: 200 }),
+            unit: types.string({})
         }
     }
 

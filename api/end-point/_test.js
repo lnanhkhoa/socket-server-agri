@@ -36,10 +36,10 @@ api.get({
     },
     response: types.list(types.object({
         ..._.omit(dao.node._schema(), ['id', 'node_uuid']),
+        // unit: types.string({}),
         data_device: types.list(types.object({
             ..._.omit(dao.device._schema(), ['device_uuid', 'id', 'node_id']),
             value: types.number({}),
-            unit: types.string({}),
             created_at: types.datetime({})
         }))
     })),
@@ -73,7 +73,7 @@ api.get({
             const value_device = _.find(list_value_device, i => i.device_id === device.id);
             return {
                 ...device,
-                ..._.omit(value_device, 'device_id')
+                ..._.omit(value_device, 'device_id', 'unit')
             }
         })
 
@@ -117,7 +117,7 @@ api.post({
             user_name, token_key: user_token_key
         });
         if (!user_existed) throw { code: 'user_not_found' }
-        
+
         // const { home_name } = params
         const home_existed = await dao.home.getByNameUserId({
             home_name: home_name,

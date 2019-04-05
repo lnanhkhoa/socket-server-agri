@@ -24,7 +24,7 @@ subHandle.addInsertDevice = async function (info_node) {
     })
 
     const list_device_approve_need_create = _.differenceBy(list_device, list_device_existed, 'url')
-    //insert if not existed
+    //insert device if not existed
     if (!!list_device_approve_need_create && list_device_approve_need_create.length > 0) {
         try {
             const list_device_approve_need_create_mapping = list_device_approve_need_create.map(device => ({
@@ -32,6 +32,7 @@ subHandle.addInsertDevice = async function (info_node) {
                 node_id: node_existed.id,
                 url: device.url,
                 device_name: device.name,
+                unit: device.unit
             }))
             console.log('list_insert', list_device_approve_need_create_mapping)
             const device_id = await dao.device.insertBulk(list_device_approve_need_create_mapping);
@@ -51,15 +52,18 @@ subHandle.addInsertDevice = async function (info_node) {
     if (!!list_device_existed_next && list_device_existed_next.length > 0) {
         try {
             const list_value_device_mapping = list_device.map(device => {
-                const device_existed_next = _.find(list_device_existed_next, device_existed_next => device_existed_next.url === device.url)
+                const device_existed_next = _.find(list_device_existed_next, device_existed_next =>
+                    device_existed_next.url === device.url
+                )
                 return {
                     device_id: device_existed_next.id,
                     value: Number(device.value),
-                    unit: device.unit
                 }
             })
             console.log('list_insert', list_value_device_mapping)
-            const value_id = await dao.value_device.insertBulk(list_value_device_mapping);
+            // remove value isNull 
+            const list_insert = _.reject(list_value_device_mapping, _.isNull(device.value))
+            const value_id = await dao.value_device.insertBulk(list_insert);
             return value_id
         } catch (error) {
             console.log(error)
