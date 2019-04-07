@@ -103,7 +103,7 @@ subHandle.insertInfoNode = async function (list_info_node) {
 
 handle.send_all_state_home = async function (params) {
     console.log('all saved data', params.send_all_state_home)
-    const list_data = params.send_all_state_home
+    const list_data = params.send_all_state_home;
     const list_info_node = list_data.map(node => ({
         ..._.omit(node, ['data'])
     }))
@@ -119,14 +119,17 @@ handle.send_all_state_home = async function (params) {
 
     const addInfoDevice = await Promise.all(p_addInfoDevice)
 
-    return null
-    // console.log('list_device_approve_need_create', list_device_approve_need_create)
 
+    const { is_forwarding, info_forwarding } = params
+    if (!!is_forwarding) {
+        const response = await handle.response_from_home_to_user(info_forwarding)
+    }
+    return null
 }
 
 
 handle.response_from_home_to_user = async function (params) {
-    console.log('response_from_home_to_user', params)
+    console.log('response_from_home_to_user')
 
     // send info to home
     const res = await socket.emit({
@@ -139,16 +142,6 @@ handle.response_from_home_to_user = async function (params) {
             data: params.data
         }
     })
-
-    if (!res) return {
-        success: false
-    }
-
-    return {
-        success: true,
-        event: 'command_to_home_from_user'
-    }
-
 }
 
 

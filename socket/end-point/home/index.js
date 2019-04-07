@@ -43,7 +43,9 @@ socket.register({
                 value: types.number(),
                 unit: types.string(),
             })),
-        }))
+        })),
+        is_forwarding: types.boolean(),
+        info_forwarding: types.raw()
     },
     response: types.object({
     }),

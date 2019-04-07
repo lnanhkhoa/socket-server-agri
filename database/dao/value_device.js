@@ -65,7 +65,7 @@ module.exports = class {
         const nameTable = this.dao._nameTable();
         return await db.table(nameTable).select(['created_at', 'value'])
             .where('device_id', device_id)
-            .orderBy('created_at', 'desc').limit(200).offset(0)
+            .orderBy('created_at', 'desc').limit(1000).offset(0)
         // .paging({ page, page_size })
     }
 
