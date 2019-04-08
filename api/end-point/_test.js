@@ -67,7 +67,8 @@ api.get({
         const list_node_id = list_node_existed.map(node => node.id);
         const list_device_existed = await dao.device.getListByListNodeId(list_node_id);
         const list_device_id = list_device_existed.map(device => device.id);
-        const list_value_device = await dao.value_device.getListNewestByListDeviceId(list_device_id);
+        const _list_value_device = await dao.value_device.getListNewestByListDeviceId(list_device_id);
+        const list_value_device = _.omitBy(_list_value_device, _.isNil);
 
         const data_device = list_device_existed.map(device => {
             const value_device = _.find(list_value_device, i => i.device_id === device.id);
