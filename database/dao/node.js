@@ -19,6 +19,7 @@ module.exports = class {
       home_id: types.number({ index: true }),
       node_uuid: types.string(),
       node_name: types.string({ max: 300 }),
+      node_name_app: types.string({ max: 200 }),
       registration_id: types.string({ index: true }),
       address: types.string(),
 
