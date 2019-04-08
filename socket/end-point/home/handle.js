@@ -60,9 +60,9 @@ subHandle.addInsertDevice = async function (info_node) {
                     value: Number(device.value),
                 }
             })
-            console.log('list_insert', list_value_device_mapping)
+            console.log('list_value_device_insert', list_value_device_mapping)
             // remove value isNull 
-            const list_insert = _.reject(list_value_device_mapping, _.isNull(device.value))
+            const list_insert = _.reject(list_value_device_mapping, device => _.isNull(device.value))
             const value_id = await dao.value_device.insertBulk(list_insert);
             return value_id
         } catch (error) {
