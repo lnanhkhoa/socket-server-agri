@@ -119,11 +119,18 @@ handle.send_all_state_home = async function (params) {
 
     const addInfoDevice = await Promise.all(p_addInfoDevice)
 
-
     const { is_forwarding, info_forwarding } = params
-    if (!!is_forwarding) {
-        const response = await handle.response_from_home_to_user(info_forwarding)
+    const payloadSend = !!is_forwarding ? info_forwarding : {
+        to: ['ios'],
+        from: 'leshan_08042019',
+        data: {
+            from: 'leshan_08042019',
+            to: 'ios',
+            response_command_type: '',
+            data: {}
+        }
     }
+    const response = await handle.response_from_home_to_user(payloadSend)
     return null
 }
 

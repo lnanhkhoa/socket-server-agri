@@ -3,7 +3,7 @@ module.exports = {
     /*=============================================
     *        Databases Enum                            *
     =============================================*/
-    device_type: ['Illuminance', 'Temperature', 'Humidity', 'Pressure', 'Light Control'],
+    device_type: ['Illuminance', 'Temperature', 'Humidity', 'Soil Moisture', 'Soil Temp', 'Light Control'],
     object_device: [
         {
             name: 'Light Control',
