@@ -1,8 +1,5 @@
 const socket = require('../../');
 const types = require('../../../core/types');
-
-
-
 const handle = require('./handle')
 
 socket.register({
@@ -23,6 +20,26 @@ socket.register({
         console.log('command_to_home')
     }
 })
+
+socket.register({
+    event: 'config_remote_pump_automatically',
+    tags: ['dev'],
+    summary: 'send config to home from server',
+    allow_emit: true,
+    parameter: {
+        from: types.string(),
+        to: types.string(),
+        command_type: types.string(),
+        data: types.raw()
+    },
+    response: types.object({
+    }),
+    listen_handle: async function (params) {
+        console.log('config_remote_pump_automatically')
+    }
+})
+
+
 
 
 

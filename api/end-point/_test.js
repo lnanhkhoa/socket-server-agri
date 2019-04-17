@@ -43,8 +43,7 @@ api.post({
     handle: async function (params) {
         const { data_config, home_name } = params
         const home_existed = await dao.home.getByNameUserId({
-            home_name: home_name,
-            user_id: 1
+            home_name: home_name, user_id: 1
         })
         if (!home_existed) throw { code: 'home_not_found' }
         const data_config_mapping = data_config.map(async config => {
@@ -55,14 +54,28 @@ api.post({
                 mean_humidity_value: config.mean_humidity_value,
                 about_time: config.about_time
             }
-            return await dao.config.upsert({
+            const resUpsert = await dao.config.upsert({
                 home_name: home_name,
                 object_type: 'GARDEN',
                 object_id: Number(config.index_garden),
                 config: data_insert
             })
+            return data_insert
+        });
+        return Promise.all(data_config_mapping).then(async res => {
+            await socket.emit({
+                event: 'config_remote_pump_automatically',
+                to: [home_name],
+                data: {
+                    from: 'server',
+                    to: home_name,
+                    command_type: 'config',
+                    data: {
+                        list_data: res
+                    }
+                }
+            })
         })
-        return Promise.all(data_config_mapping)
 
         // const id = await dao.config.upsert({
         //     home_name: home_name, object_type: 'GARDEN', object_id: config.index_garden
