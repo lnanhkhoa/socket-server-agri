@@ -42,14 +42,14 @@ module.exports = class {
     return { meta: { success: true } }
   }
 
-  static async insert(node) {
-    const parseResults = this.dao._parseSchema(node);
-    if (!_.get(parseResults, 'meta.success', undefined)) throw { ...parseResults }
+  // static async insert(node) {
+  //   const parseResults = this.dao._parseSchema(node);
+  //   if (!_.get(parseResults, 'meta.success', undefined)) throw { ...parseResults }
 
-    const index = _.push({ ...node });
-    db[index - 1].id = index;
-    return index
-  }
+  //   const index = _.push({ ...node });
+  //   db[index - 1].id = index;
+  //   return index
+  // }
 
   static async insertBulk(list_node) {
     const db = this.openAConnection()

@@ -36,14 +36,14 @@ module.exports = class {
         return { meta: { success: true } }
     }
 
-    static async insert(home) {
-        const parseResults = this.models._parseSchema(bill_product);
-        if (!_.get(parseResults, 'meta.success', undefined)) throw { ...parseResults }
+    // static async insert(home) {
+    //     const parseResults = this.models._parseSchema(bill_product);
+    //     if (!_.get(parseResults, 'meta.success', undefined)) throw { ...parseResults }
 
-        const index = _.push({ ...home });
-        db[index - 1].id = index;
-        return index
-    }
+    //     const index = _.push({ ...home });
+    //     db[index - 1].id = index;
+    //     return index
+    // }
 
     static async insertBulk(list_value_device) {
         const db = this.openAConnection()

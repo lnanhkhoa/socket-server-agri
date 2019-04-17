@@ -100,7 +100,7 @@ module.exports = {
         db.destroy();
         return exists;
     },
-    
+
     insertSampleData: async function (dao, sampleData) {
         const schema = await dao.schema();
         const keysSchema = Object.keys(schema);
@@ -119,7 +119,7 @@ module.exports = {
     }
 };
 
-
+dao.config = require('./dao/config')
 dao.user = require('./dao/user')
 dao.home = require('./dao/home')
 dao.node = require('./dao/node')
