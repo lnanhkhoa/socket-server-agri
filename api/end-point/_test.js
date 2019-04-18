@@ -109,6 +109,45 @@ api.get({
 
 
 
+api.get({
+    url: '/garden/get_info',
+    tags: ['dev'],
+    parameter: {
+        user_name: types.string(),
+        user_token_key: types.string(),
+        home_name: types.string(),
+    },
+    response: types.list(types.object({
+        garden_id: types.number(),
+        list_node_name: types.raw()
+
+    })),
+    handle: async function (params) {
+        const { user_name, home_name, user_token_key } = params;
+        const user_existed = await dao.user.getByNameTokenKey({
+            user_name, token_key: user_token_key
+        });
+        if (!user_existed) throw { code: 'user_not_found' }
+        const home_existed = await dao.home.getByNameUserId({
+            home_name: home_name, user_id: user_existed.id
+        });
+        const home_id = home_existed.id;
+        const list_node_existed = await dao.node.getListByHomeId(home_id);
+        const list_node_in_garden = list_node_existed.filter(node => !!node.garden_id)
+        const list_garden_id = _.uniq(list_node_in_garden.map(node => node.garden_id));
+        return list_garden_id.map(garden_id => {
+            return {
+                garden_id: garden_id,
+                list_node_name: _.map(_.filter(list_node_existed, node =>
+                    node.garden_id === garden_id), node => node.node_name
+                )
+            }
+        })
+
+    },
+});
+
+
 
 
 api.get({

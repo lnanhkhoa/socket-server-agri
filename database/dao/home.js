@@ -57,7 +57,9 @@ module.exports = class {
     const db = this.openAConnection()
     const nameTable = this.dao._nameTable();
     return await db.table(nameTable)
-      .where('home_name', home_name).where('user_id', user_id).first();
+      .where('home_name', home_name)
+      .where('user_id', user_id)
+      .first();
   }
 
   static async getAll() {

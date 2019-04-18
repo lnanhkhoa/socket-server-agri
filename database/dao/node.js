@@ -22,6 +22,7 @@ module.exports = class {
       node_name_app: types.string({ max: 200 }),
       registration_id: types.string({ index: true }),
       address: types.string(),
+      garden_id: types.number()
 
     }
   }
@@ -103,7 +104,11 @@ module.exports = class {
     return await db.table(nameTable).whereIn('node_name', list_node_name)
   }
 
-
+  static async getListByHomeId(home_id) {
+    const db = this.openAConnection()
+    const nameTable = this.dao._nameTable();
+    return await db.table(nameTable).where('home_id', home_id)
+  }
 
 
   static async getAll() {
