@@ -261,7 +261,7 @@ api.get({
     }),
     handle: async function (params) {
         const { user_name, user_token_key } = params
-        const { home_name, url } = params
+        const { home_name, node_name, url } = params
         const object_device = static.object_device;
 
         const user_existed = await dao.user.getByNameTokenKey({
