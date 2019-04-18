@@ -18,7 +18,7 @@ module.exports = class {
       id: types.number({ increments: true, primary: true }),
       home_id: types.number({ index: true }),
       node_uuid: types.string(),
-      node_name: types.string({ max: 300 }),
+      node_name: types.string({ index: true, max: 300 }),
       node_name_app: types.string({ max: 200 }),
       registration_id: types.string({ index: true }),
       address: types.string(),
@@ -84,6 +84,15 @@ module.exports = class {
     return await db.table(nameTable)
       .where('home_id', home_id)
       .where('registration_id', registration_id)
+      .first();
+  }
+
+  static async getByHomeIdNodeName({ home_id, node_name }) {
+    const db = this.openAConnection()
+    const nameTable = this.dao._nameTable();
+    return await db.table(nameTable)
+      .where('home_id', home_id)
+      .where('node_name', node_name)
       .first();
   }
 

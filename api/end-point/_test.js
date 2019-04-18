@@ -185,7 +185,7 @@ api.post({
         user_name: types.string(),
         user_token_key: types.string(),
         home_name: types.string(),
-        registration_id: types.string(),
+        node_name: types.string(),
         url: types.string(), //instead device_name
         value: types.boolean()
     },
@@ -194,7 +194,7 @@ api.post({
     }),
     handle: async function (params) {
         const { user_name, user_token_key } = params
-        const { home_name, registration_id, url, value } = params
+        const { home_name, node_name, url, value } = params
 
         const object_device = static.object_device;
         const controllable = _.find(object_device, obj => obj.url === url && !!obj.controllable)
@@ -212,9 +212,9 @@ api.post({
         });
         if (!home_existed) throw { code: 'home_not_found' }
 
-        const node_existed = await dao.node.getByHomeIdRegId({
-            registration_id: registration_id,
-            home_id: home_existed.id
+        const node_existed = await dao.node.getByHomeIdNodeName({
+            home_id: home_existed.id,
+            node_name: node_name,
         })
 
         const device_existed = await dao.device.getByUrlNodeId({
@@ -246,7 +246,7 @@ api.get({
         user_name: types.string(),
         user_token_key: types.string(),
         home_name: types.string(),
-        registration_id: types.string(),
+        node_name: types.string(),
         url: types.string()
     },
     response: types.object({
@@ -261,7 +261,7 @@ api.get({
     }),
     handle: async function (params) {
         const { user_name, user_token_key } = params
-        const { home_name, registration_id, url } = params
+        const { home_name, url } = params
         const object_device = static.object_device;
 
         const user_existed = await dao.user.getByNameTokenKey({
@@ -275,8 +275,8 @@ api.get({
         });
         if (!home_existed) throw { code: 'home_not_found' }
 
-        const node_existed = await dao.node.getByHomeIdRegId({
-            registration_id: registration_id,
+        const node_existed = await dao.node.getByHomeIdNodeName({
+            node_name: node_name,
             home_id: home_existed.id
         })
         if (!node_existed) throw { code: 'node_not_found' }
