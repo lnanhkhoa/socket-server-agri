@@ -34,11 +34,12 @@ api.post({
         data_config: types.list(types.object({
             index_garden: types.string(),
             mean_humidity_value: types.number(),
-            about_time: types.number()
+            about_time: types.number(),
+            cycle_time: types.number(),
+            status: types.boolean()
         })),
     },
     response: types.object({
-
     }),
     handle: async function (params) {
         const { data_config, home_name } = params
@@ -52,7 +53,9 @@ api.post({
                 object_type: 'GARDEN',
                 object_id: Number(config.index_garden),
                 mean_humidity_value: config.mean_humidity_value,
-                about_time: config.about_time
+                about_time: config.about_time,
+                cycle_time: config.cycle_time,
+                status: config.status
             }
             const resUpsert = await dao.config.upsert({
                 home_name: home_name,

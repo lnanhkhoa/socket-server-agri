@@ -15,8 +15,9 @@ module.exports = class {
             object_id: types.number({ index: true }),
             object_type: types.string(),
             mean_humidity_value: types.number(),
-            about_time: types.number()
-
+            about_time: types.number(),
+            cycle_time: types.number(),
+            status: types.boolean()
         }
     }
 
