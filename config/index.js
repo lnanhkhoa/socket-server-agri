@@ -46,18 +46,6 @@ let config = {
                 dateStrings: true,
             },
         },
-        testing: {
-            client: undefined,
-            connection: {
-                host: undefined,
-                port: undefined,
-                user: undefined,
-                password: undefined,
-                database: undefined,
-                timezone: 'UTC',
-                dateStrings: true,
-            },
-        },
     },
 };
 
