@@ -38,9 +38,9 @@ let config = {
             client: 'mysql',
             connection: {
                 host: '127.0.0.1',
-                port: 3306,
+                port: 36032,
                 user: 'agri',
-                password: 'agri@123',
+                password: 'agrismart@12356789',
                 database: 'agrismart',
                 timezone: 'UTC',
                 dateStrings: true,
