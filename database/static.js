@@ -35,6 +35,8 @@ module.exports = {
             valueId: 5700,
             unitId: 5701,
             valueType: 'number',
+            min_range: 0,
+            max_range: 60000
         },
         {
             name: 'Temperature',
@@ -42,6 +44,8 @@ module.exports = {
             valueId: 5700,
             unitId: 5701,
             valueType: 'number',
+            min_range: 5,
+            max_range: 100
         },
         {
             name: 'Humidity',
@@ -49,6 +53,8 @@ module.exports = {
             valueId: 5700,
             unitId: 5701,
             valueType: 'number',
+            min_range: 0,
+            max_range: 100
         },
         {
             name: 'Soil Moisture',
@@ -56,6 +62,8 @@ module.exports = {
             valueId: 5700,
             unitId: 5701,
             valueType: 'number',
+            min_range: 170,
+            max_range: 850
         },
         {
             name: 'Soil Temp',
@@ -63,6 +71,8 @@ module.exports = {
             valueId: 5700,
             unitId: 5701,
             valueType: 'number',
+            min_range: 5,
+            max_range: 100
         },
     ]
     /*=====  End of Enum =========*/

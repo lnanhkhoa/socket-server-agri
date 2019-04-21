@@ -14,7 +14,7 @@ const subHandle = {}
 subHandle.addInsertDevice = async function (info_node) {
     const list_device = info_node.data;
     const list_device_approve = _.reject(list_device, device => !_.includes(static.object_device.map(i => i.url), device.url))
-    const list_device_url_approve = list_device_approve.map(device => device.url)
+    const list_device_url_approve = list_device_approve.map(device => device.url);
 
     const node_existed = await dao.node.getByAddress(info_node.address)
     if (!node_existed) console.log('node_not_found')
@@ -52,9 +52,14 @@ subHandle.addInsertDevice = async function (info_node) {
     if (!!list_device_existed_next && list_device_existed_next.length > 0) {
         try {
             const list_value_device_mapping = list_device.map(device => {
-                const device_existed_next = _.find(list_device_existed_next, device_existed_next =>
-                    device_existed_next.url === device.url
-                )
+                const device_existed_next = _.find(list_device_existed_next, device_existed_next => {
+                    return device_existed_next.url === device.url
+                })
+                const device_approve = _.find(list_device_approve, i => i.url === device.url);
+                if (!!device_approve.min_range && !!device_approve.max_range) {
+                    const val = Number(device.value)
+                    if (val < device_approve.min_range || val > device_approve.max_range) return null
+                }
                 return {
                     device_id: device_existed_next.id,
                     value: Number(device.value),
@@ -62,7 +67,7 @@ subHandle.addInsertDevice = async function (info_node) {
             })
             console.log('list_value_device_insert', list_value_device_mapping)
             // remove value isNull 
-            const list_insert = _.reject(list_value_device_mapping, device => _.isNull(device.value))
+            const list_inssert = _.reject(list_value_device_mapping, device => _.isNull(device) || _.isNull(device.value))
             const value_id = await dao.value_device.insertBulk(list_insert);
             return value_id
         } catch (error) {
@@ -107,11 +112,8 @@ handle.send_all_state_home = async function (params) {
     const list_info_node = list_data.map(node => ({
         ..._.omit(node, ['data'])
     }))
-    // console.log(list_info_node)
-
 
     const upsert_info_node = await subHandle.insertInfoNode(list_info_node)
-
     const p_addInfoDevice = list_data.map(async info_node => {
         const res = await subHandle.addInsertDevice(info_node)
 
