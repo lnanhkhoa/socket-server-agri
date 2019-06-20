@@ -164,7 +164,6 @@ api.get({
     },
     response: types.list(types.object({
         ..._.omit(dao.node._schema(), ['id', 'node_uuid']),
-        // unit: types.string({}),
         data_device: types.list(types.object({
             ..._.omit(dao.device._schema(), ['device_uuid', 'id', 'node_id']),
             value: types.number({}),

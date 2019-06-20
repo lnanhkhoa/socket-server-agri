@@ -60,7 +60,7 @@ module.exports = class {
     }
 
 
-    static async getListMappedById(device_id){
+    static async getListMappedById(device_id) {
         const db = this.openAConnection()
         const nameTable = this.dao._nameTable();
         return await db.table(nameTable).select(['created_at', 'value'])
@@ -81,11 +81,16 @@ module.exports = class {
         // const length = list_device_id.length || 1;
         const db = this.openAConnection()
         const nameTable = this.dao._nameTable();
-        const p_list_device_existed = list_device_id.map(async device_id => {
-            return await db.table(nameTable).where('device_id', device_id)
-                .orderBy('created_at', 'desc').first()
-        })
-        return await Promise.all(p_list_device_existed)
+
+        const _list_id = await db.table(nameTable).select(db.raw('max(id) as id, device_id')).groupBy('device_id');
+        const list_id = _list_id.map(i => i.id);
+        const list_device_existed = await db.table(nameTable).whereIn('id', list_id);
+        return list_device_existed
+        // const p_list_device_existed = list_device_id.map(async device_id => {
+        //     return await db.table(nameTable).where('device_id', device_id)
+        //         .orderBy('created_at', 'desc').first()
+        // })
+        // return await Promise.all(p_list_device_existed)
     }
 
     static async getAll() {
