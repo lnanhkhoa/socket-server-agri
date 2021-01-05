@@ -13,7 +13,7 @@
     "database": "yarn run create && yarn run insert"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.18.2",
     "cluster": "^0.7.7",
     "compression": "^1.7.2",
